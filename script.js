@@ -1,26 +1,35 @@
-// Retrieve the voting data from localStorage or initialize an empty array
 let votes = JSON.parse(localStorage.getItem('votes')) || [];
 const votingDuration = 600000; // 10 minutes
 const startTime = Date.now();
 
+// Check if the voting period has ended on page load
+checkVotingStatus();
+
+// Update the timer every second
 setInterval(updateTimer, 1000);
 
+// Check voting status and update UI
+function checkVotingStatus() {
+  const elapsedTime = Date.now() - startTime;
+  if (elapsedTime >= votingDuration) {
+    document.getElementById('votingForm').style.display = 'none';
+    document.getElementById('votingTimer').textContent = 'Voting has ended.';
+  }
+}
+
+// Update the timer display
 function updateTimer() {
   const elapsedTime = Date.now() - startTime;
   const remainingTime = Math.max(0, votingDuration - elapsedTime);
   const minutes = Math.floor(remainingTime / 60000);
   const seconds = Math.floor((remainingTime % 60000) / 1000);
   document.getElementById('timer').textContent = `${minutes}m ${seconds}s`;
-
-  if (remainingTime === 0) {
-    document.getElementById('votingForm').style.display = 'none';
-    document.getElementById('votingTimer').textContent = 'Voting has ended.';
-  }
 }
 
+// Event listener for voting form submission
 document.getElementById('votingForm').addEventListener('submit', function(event) {
   event.preventDefault();
-  
+
   const candidate = document.getElementById('candidate').value;
   const voterId = document.getElementById('voterId').value;
 
@@ -56,6 +65,7 @@ document.getElementById('votingForm').addEventListener('submit', function(event)
   alert(`Thank you for voting! Your vote has been recorded.\nVerification Code: ${verificationCode}`);
 });
 
+// Function to generate a verification code
 function generateVerificationCode() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let verificationCode = '';
@@ -65,6 +75,7 @@ function generateVerificationCode() {
   return verificationCode;
 }
 
+// Function to update voting results
 function updateVotingResults() {
   const resultsList = document.getElementById('resultsList');
   resultsList.innerHTML = '';
@@ -85,6 +96,7 @@ function updateVotingResults() {
   }
 }
 
+// Function to update voter turnout
 function updateVoterTurnout() {
   const voterTurnout = document.getElementById('voterTurnout');
   const totalVoters = votes.length;
