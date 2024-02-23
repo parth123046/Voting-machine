@@ -1,3 +1,4 @@
+// Retrieve the voting data from localStorage or initialize an empty array
 let votes = JSON.parse(localStorage.getItem('votes')) || [];
 const votingDuration = 600000; // 10 minutes
 const startTime = Date.now();
