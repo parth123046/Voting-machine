@@ -1,4 +1,4 @@
-let votes = JSON.parse(localStorage.getItem('votes')) || [];
+let votes = [];
 const votingDuration = 600000; // 10 minutes
 const startTime = Date.now();
 
@@ -41,8 +41,6 @@ document.getElementById('votingForm').addEventListener('submit', function(event)
   };
 
   votes.push(vote);
-
-  localStorage.setItem('votes', JSON.stringify(votes));
 
   document.getElementById('candidate').selectedIndex = 0;
   document.getElementById('voterId').value = '';
