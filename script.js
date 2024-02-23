@@ -1,4 +1,5 @@
-let votes = [];
+// Retrieve the voting data from localStorage or initialize an empty array
+let votes = JSON.parse(localStorage.getItem('votes')) || [];
 const votingDuration = 600000; // 10 minutes
 const startTime = Date.now();
 
@@ -41,6 +42,9 @@ document.getElementById('votingForm').addEventListener('submit', function(event)
   };
 
   votes.push(vote);
+
+  // Save the updated voting data to localStorage
+  localStorage.setItem('votes', JSON.stringify(votes));
 
   document.getElementById('candidate').selectedIndex = 0;
   document.getElementById('voterId').value = '';
